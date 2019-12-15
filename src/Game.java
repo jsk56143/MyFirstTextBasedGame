@@ -48,6 +48,7 @@ public class Game {
                 }
                 System.out.println();
             }
+            //Print out description of room
             System.out.print("What do you want to do? ");
             game.command = input.nextLine(); //Stores the input
             game.action(game.command); //Does the action according to the input
