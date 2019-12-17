@@ -3,34 +3,8 @@ import java.util.Scanner;
 //Make Game
 public class Game {
 
-    private String[][] displayArray = new String[3][3];
-    private int[][] hiddenArray = new int[3][3]; //Do I need this?
-    private int currentRow, currentCol;
-    private String command;
-
-    /*
-     * The constructor creates the game object and initializes the
-     * user's position at currentRow = 0 and currentCol = 0 with an
-     * "X". The command is entered by the user. Only move right,
-     * move left, move down, and move up is currently valid.
-     */
-    private Game() {
-        currentRow = 0; //Represents user's location in terms of the row
-        currentCol = 0; //Represents user's location in terms of the column
-        command = "";
-        for (int i = 0; i < displayArray.length; i++) {
-            for (int j = 0; j < displayArray[0].length; j++) {
-                if (j == 0) { //If first column
-                    displayArray[i][j] = "|   |";
-                    if (i == 0) { //If first column and first row, initialize user's token
-                        displayArray[i][j] = "| X |";
-                    }
-                } else { //If column other than 0
-                    displayArray[i][j] = "   |";
-                }
-                hiddenArray[i][j] = 0;
-            }
-        }
+    protected Game() {
+        boolean firstTime = true;
     }
 
     /*
@@ -40,14 +14,18 @@ public class Game {
      */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        Game game = new Game();
+        Board board = new Board();
         do {
-            for (int i = 0; i < game.displayArray.length; i++) {
-                for (int j = 0; j < game.displayArray[0].length; j++) {
+            board.printBoard();
+            /*
+            for (int i = 0; i < board.displayArray.length; i++) {
+                for (int j = 0; j < board.displayArray[0].length; j++) {
                     System.out.print(game.displayArray[i][j]);
                 }
                 System.out.println();
             }
+            */
+
             //Print out description of room
             System.out.print("What do you want to do? ");
             game.command = input.nextLine(); //Stores the input
@@ -55,6 +33,14 @@ public class Game {
         }
         while (!game.command.equalsIgnoreCase("quit")); //Keep going unless player enters "quit"
         input.close();
+    }
+
+    public boolean getFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(boolean condition) {
+        this.firstTime = condition;
     }
 
     /*
