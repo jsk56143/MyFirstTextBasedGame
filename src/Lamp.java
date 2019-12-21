@@ -1,19 +1,21 @@
 public class Lamp {
 
-    private boolean hasLamp, isLit;
+    private boolean hasLamp = false, isLit = false;
 
     public Lamp() {
-        hasLamp = false;
-        isLit = false;
+
     }
 
-    public void getLamp() {
-        hasLamp = true;
-    }
+   public void setHasLamp(boolean hasLamp) {
+        this.hasLamp = hasLamp;
+   }
 
-    public void lightLamp() {
-        isLit = true;
-    }
+   public void setIsLit(boolean isLit) {
+        this.isLit = isLit;
+   }
 
+   public boolean getHasLamp() {
+        return hasLamp;
+   }
 
 }

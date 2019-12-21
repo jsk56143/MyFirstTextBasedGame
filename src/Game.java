@@ -12,6 +12,8 @@ public class Game {
         Scanner input = new Scanner(System.in);
         Board board = new Board();
         board.initializeBoard();
+        Player player = new Player("Josh");
+        Lamp lamp = new Lamp();
         do {
             board.printBoard();
             //Print out description of room
