@@ -1,9 +1,10 @@
 public class Lamp {
 
-    private boolean hasLamp = false, isLit = false;
+    private boolean hasLamp, isLit;
 
     public Lamp() {
-
+        hasLamp = false;
+        isLit = false;
     }
 
    public void setHasLamp(boolean hasLamp) {

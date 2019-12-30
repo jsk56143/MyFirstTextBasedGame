@@ -3,19 +3,21 @@ public class Player {
     private String name, weapon;
     private boolean hasLamp, hasKey;
 
-    public Player(String userName) {
-        setName(userName);
-        setWeapon("Fist");
+    public Player(String userName, Lamp lamp, Key key) {
+        name = userName;
+        weapon = "Fist";
+        lamp.setHasLamp(false);
+        key.setHasKey(false);
     }
 
     public String getName() {
         return name;
     }
-
+/*
     public void setName(String name) {
         this.name = name;
     }
-
+*/
     public String getWeapon() {
         return weapon;
     }
@@ -38,7 +40,7 @@ public class Player {
 
     public void openChest(Key key, Chest chest) {
         if (key.getHasKey()) {
-            chest.setChestIsOpened(true);
+            chest.openChest();
             key.setHasKey(false);
             chest.printChestContents();
         }

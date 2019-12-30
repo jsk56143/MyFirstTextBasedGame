@@ -1,10 +1,12 @@
+import java.util.Random;
 
 public class Board {
 
-    private String[][] displayArray = new String[3][3];
-    private int[][] hiddenArray = new int[3][3]; //Do I need this?
+    private String[][] displayArray; //Stores location of person
+    private int[][] hiddenArray; //Stores location of sword, lamp, chest, and key
     private int currentRow, currentCol;
     protected String command;
+    Random randLocationGen = new Random();
 
     /*
      * The constructor creates the game object and initializes the
@@ -18,9 +20,12 @@ public class Board {
         command = "";
     }
 
-    protected void initializeBoard() {
-        for (int i = 0; i < displayArray.length; i++) {
-            for (int j = 0; j < displayArray[0].length; j++) {
+    protected boolean initializeBoard(String difficulty) {
+        int bound = 0;
+        displayArray = new String[bound][bound];
+        hiddenArray = new int[bound][bound];
+        for (int i = 0; i < bound; i++) {
+            for (int j = 0; j < bound; j++) {
                 if (i == 0 && j == 0) { //Initializes player's token at 0,0
                     displayArray[i][j] = "| X |";
                 } else if (j == 0 && i > 0) { //If first column and not initializing player's token
@@ -31,7 +36,53 @@ public class Board {
                 hiddenArray[i][j] = 0;
             }
         }
+        if (difficulty.equalsIgnoreCase("Easy")) {
+            bound = 3;
+            setChestLocation(bound);
+        }
+        else if (difficulty.equalsIgnoreCase("Medium")) {
+            bound = 5;
+            setChestLocation(bound);
+            setKeyLocation(bound);
+        }
+        else if (difficulty.equalsIgnoreCase("Hard")) {
+            bound = 5;
+            setChestLocation(bound);
+            setKeyLocation(bound);
+            setLampLocation(bound);
+            setSwordLocation(bound);
+        }
+        else {
+            System.out.println("That is not one of the difficulties. Please try again.");
+            return false;
+        }
+        return true;
     }
+
+    public void setChestLocation(int bound) {
+        int randRow = randLocationGen.nextInt(bound);
+        int randCol = randLocationGen.nextInt(bound);
+        hiddenArray[randRow][randCol] = 1;
+    }
+
+    public void setLampLocation(int bound) {
+        int randRow = randLocationGen.nextInt(bound);
+        int randCol = randLocationGen.nextInt(bound);
+        hiddenArray[randRow][randCol] = 2;
+    }
+
+    public void setKeyLocation(int bound) {
+        int randRow = randLocationGen.nextInt(bound);
+        int randCol = randLocationGen.nextInt(bound);
+        hiddenArray[randRow][randCol] = 3;
+    }
+
+    public void setSwordLocation(int bound) {
+        int randRow = randLocationGen.nextInt(bound);
+        int randCol = randLocationGen.nextInt(bound);
+        hiddenArray[randRow][randCol] = 4;
+    }
+
 
     protected void printBoard() {
         for (int i = 0; i < displayArray.length; i++) {
@@ -71,13 +122,9 @@ public class Board {
             if (moveCondition) {
                 if (currentCol - 1 == 0) {
                     displayArray[currentRow][currentCol] = "   |";
-                    hiddenArray[currentRow][currentCol] = 0;
-                    hiddenArray[currentRow][currentCol--] = 1;
                     displayArray[currentRow][currentCol] = "| X |";
                 } else {
                     displayArray[currentRow][currentCol] = "   |";
-                    hiddenArray[currentRow][currentCol] = 0;
-                    hiddenArray[currentRow][currentCol--] = 1;
                     displayArray[currentRow][currentCol] = " X |";
                 }
             } else {
@@ -90,13 +137,9 @@ public class Board {
             if (moveCondition) {
                 if (currentCol == 0) {
                     displayArray[currentRow][currentCol] = "|   |";
-                    hiddenArray[currentRow][currentCol] = 0;
-                    hiddenArray[currentRow--][currentCol] = 1;
                     displayArray[currentRow][currentCol] = "| X |";
                 } else {
                     displayArray[currentRow][currentCol] = "   |";
-                    hiddenArray[currentRow][currentCol] = 0;
-                    hiddenArray[currentRow--][currentCol] = 1;
                     displayArray[currentRow][currentCol] = " X |";
                 }
             } else {
@@ -109,13 +152,9 @@ public class Board {
             if (moveCondition) {
                 if (currentCol == 0) {
                     displayArray[currentRow][currentCol] = "|   |";
-                    hiddenArray[currentRow][currentCol] = 0;
-                    hiddenArray[currentRow++][currentCol] = 1;
                     displayArray[currentRow][currentCol] = "| X |";
                 } else {
                     displayArray[currentRow][currentCol] = "   |";
-                    hiddenArray[currentRow][currentCol] = 0;
-                    hiddenArray[currentRow++][currentCol] = 1;
                     displayArray[currentRow][currentCol] = " X |";
                 }
             } else {
