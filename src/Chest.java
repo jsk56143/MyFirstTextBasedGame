@@ -1,7 +1,7 @@
 public class Chest {
 
     private boolean chestIsOpened;
-    private String[] contents = {"10 pieces of gold", "4 silver coins", "Cracking the Code Interview", "An instruction on how to download RAM"};
+    private String[] contents = {"10 bars of gold", "4 silver coins", "Cracking the Code Interview Book", "An instruction on how to download RAM"};
 
     public Chest() {
         chestIsOpened = false;

@@ -1,47 +1,38 @@
 public class Player {
 
-    private String name, weapon;
-    private boolean hasLamp, hasKey;
+    private String name;
+    private boolean hasLamp, key;
 
-    public Player(String userName, Lamp lamp, Key key) {
+    public Player(String userName, Lamp lamp, boolean key) {
         name = userName;
-        weapon = "Fist";
-        lamp.setHasLamp(false);
-        key.setHasKey(false);
+        lamp = null;
+        key = false;
     }
 
     public String getName() {
         return name;
     }
-/*
-    public void setName(String name) {
-        this.name = name;
-    }
-*/
-    public String getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(String weapon) {
-        this.weapon = weapon;
-    }
 
     public void getLamp(Lamp lamp) {
-        lamp.setHasLamp(true);
+        lamp = new Lamp();
     }
 
     public void lightLamp(Lamp lamp) {
         lamp.setIsLit(true);
     }
 
-    public void getKey(Key key) {
-        key.setHasKey(true);
+    public void getKey() {
+        key = true;
     }
 
-    public void openChest(Key key, Chest chest) {
-        if (key.getHasKey()) {
+    public boolean getHasKey() {
+        return key;
+    }
+
+    public void openChest(boolean key, Chest chest) {
+        if (key) {
             chest.openChest();
-            key.setHasKey(false);
+            key = false;
             chest.printChestContents();
         }
         else {
@@ -49,13 +40,6 @@ public class Player {
         }
     }
 
-
-    //public void useWeapon() {
-    //enemy takes damage
-    // }
-
-
-    //lightLamp(), openChest(), useWeapon(),
 
 
 }
