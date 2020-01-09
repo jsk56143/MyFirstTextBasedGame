@@ -19,13 +19,13 @@ public class Game {
         String name = input.nextLine();
         Player player = new Player(name, lamp, false); //Creates the player object
         System.out.println("Welcome " + player.getName());
-
-        //Player player = new Player("Josh");
         board.initializeBoard();
-
+        board.setRoomDescription();
+        //Print out how you got there: woke up in a ravine, etc.
         do {
+            board.printRoomDescription();
+            //Print out available command options
             board.printBoard();
-            //Print out description of room
             System.out.print("What do you want to do? ");
             board.command = input.nextLine(); //Stores the input
             board.action(board.command, player, lamp, chest); //Does the action according to the input

@@ -2,7 +2,7 @@
 public class Board {
 
     private String[][] displayArray; //Stores location of person
-    private String[][] descriptionArray; //Stores description of the rooms
+    private String[][] descriptionArray = new String[5][5]; //Stores description of the rooms
     private int[][] hiddenArray; //Stores location of sword, lamp, chest, key, and walkable paths
     private int currentRow, currentCol;
     protected String command;
@@ -32,6 +32,7 @@ public class Board {
                     displayArray[i][j] = "   |";
                 }
                 hiddenArray[i][j] = 0;
+                descriptionArray[i][j] = "";
             }
         }
         setItemLocation();
@@ -41,18 +42,21 @@ public class Board {
     public void setItemLocation() {
         hiddenArray[0][1] = 1; //Location of the lamp
         hiddenArray[2][0] = 2; //Location of they key
-        hiddenArray[4][1] = 4; //Location of the chest
+        hiddenArray[4][1] = 3; //Location of the chest
     }
 
     public void setWallLocation() {
-        hiddenArray[1][0] = 5;
-        hiddenArray[1][1] = 5;
-        hiddenArray[2][1] = 5;
-        hiddenArray[2][3] = 5;
-        hiddenArray[3][3] = 5;
-        hiddenArray[4][0] = 5;
+        int[] row = {1, 1, 2, 2, 3, 4};
+        int[] col = {0, 1, 1, 3, 3, 0};
+        for (int i = 0; i < row.length; i++) {
+            hiddenArray[row[i]][col[i]] = 5;
+            if (col[i] == 0) {
+                displayArray[row[i]][col[i]] = "| O |";
+            } else {
+                displayArray[row[i]][col[i]] = " O |";
+            }
+        }
     }
-
 
     public void printBoard() {
         for (int i = 0; i < displayArray.length; i++) {
@@ -81,7 +85,6 @@ public class Board {
                 }
                 displayArray[currentRow][currentCol + 1] = " X |";
                 currentCol++;
-                System.out.println("It worked.");
             } else {
                 System.out.println("Can't move in that direction.");
             }
@@ -164,7 +167,7 @@ public class Board {
             count++;
         }
         if (command.equalsIgnoreCase("Open Chest")) {
-            if (hiddenArray[currentRow][currentCol] == 4 && player.getHasKey()) {
+            if (hiddenArray[currentRow][currentCol] == 3 && player.getHasKey()) {
                 System.out.println("You insert the key into the lock and it unlocks.");
                 player.openChest(true, chest);
                 System.out.println("Congratulations! You have found the chest and won the game.");
@@ -198,6 +201,38 @@ public class Board {
             return false;
         }
         return true;
+    }
+
+    public void printRoomDescription() {
+        if (currentRow == 0 && currentCol == 1) {
+            if (hiddenArray[currentRow][currentCol] == 0) {
+                descriptionArray[currentRow][currentCol] = "There is a cave entrance in front of you. It's dark inside.";
+            }
+        }
+        else if (currentRow == 2 && currentCol == 0) {
+            if (hiddenArray[currentRow][currentCol] == 0) {
+                descriptionArray[currentRow][currentCol] = "The ground is bumpy. The air is cool and dry. Stalactites hang from the ceiling.";
+            }
+        }
+        System.out.println(descriptionArray[currentRow][currentCol]);
+    }
+
+    public void setRoomDescription() {
+        descriptionArray[0][0] = "There are walls around you except for one direction.";
+        descriptionArray[0][1] = "There is a cave entrance in front of you. It's dark inside, but you find a lamp near the entrance.";
+        descriptionArray[2][0] = "The ground is bumpy, and you see a golden key sticking out from the ground. It looks like it unlocks something valuable.";
+        descriptionArray[4][1] = "This room looks different. It's smaller, and you see a large padlocked wooden chest.";
+        for (int row = 0; row < descriptionArray.length; row++) {
+            for (int col = 0; col < descriptionArray.length; col++) {
+                if (descriptionArray[row][col].isEmpty()) {
+                    descriptionArray[row][col] = "The ground is bumpy. The air is cool and dry. Stalactites hang from the ceiling.";
+                }
+            }
+        }
+    }
+
+    public void printAvailOptions() {
+        //use the moveCheck method
     }
 
 
