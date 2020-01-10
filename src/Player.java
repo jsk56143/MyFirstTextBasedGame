@@ -6,6 +6,7 @@ public class Player {
     public Player(String userName, Lamp lamp, boolean key) {
         name = userName;
         lamp = null;
+        hasLamp = false;
         key = false;
     }
 
@@ -15,6 +16,11 @@ public class Player {
 
     public void getLamp(Lamp lamp) {
         lamp = new Lamp();
+        hasLamp = true;
+    }
+
+    public boolean getHasLamp() {
+        return hasLamp;
     }
 
     public void lightLamp(Lamp lamp) {

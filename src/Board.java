@@ -1,10 +1,10 @@
-
 public class Board {
 
     private String[][] displayArray; //Stores location of person
     private String[][] descriptionArray = new String[5][5]; //Stores description of the rooms
     private int[][] hiddenArray; //Stores location of sword, lamp, chest, key, and walkable paths
     private int currentRow, currentCol;
+    private boolean printOtherDescrip = false;
     protected String command;
 
     /*
@@ -78,6 +78,10 @@ public class Board {
         if (command.equalsIgnoreCase("Move Right")) {
             moveCondition = moveCheck("right");
             if (moveCondition) {
+                if (hiddenArray[currentRow][currentCol] == 1) {
+                    System.out.println("You'll probably need that lamp. Who knows what lurks in the darkness.");
+                    return;
+                }
                 if (currentCol == 0) {
                     displayArray[currentRow][currentCol] = "|   |";
                 } else {
@@ -151,6 +155,7 @@ public class Board {
         if (command.equalsIgnoreCase("Light lamp")) {
             if (lamp != null) {
                 player.lightLamp(lamp);
+                printOtherDescrip = true;
             } else {
                 System.out.println("You don't have a lamp to light.");
             }
@@ -173,7 +178,7 @@ public class Board {
                 System.out.println("Congratulations! You have found the chest and won the game.");
                 System.exit(0);
             } else {
-                System.out.println("There is no chest to unlock.");
+                System.out.println("The chest is padlocked. You need to find a key.");
             }
             count++;
         }
@@ -203,18 +208,24 @@ public class Board {
         return true;
     }
 
-    public void printRoomDescription() {
-        if (currentRow == 0 && currentCol == 1) {
+    public void printRoomDescription(Player player, Lamp lamp) {
+        System.out.print("ROOM DESCRIPTION: ");
+        if (player.getHasLamp() && !lamp.getIsLit() && !(currentRow == 0 && (currentCol == 1 || currentCol == 0))) {
+            System.out.println("It's too dark to see anything.");
+        }
+        if (currentRow == 0 && currentCol == 1) { //After the player got the lamp
             if (hiddenArray[currentRow][currentCol] == 0) {
                 descriptionArray[currentRow][currentCol] = "There is a cave entrance in front of you. It's dark inside.";
             }
         }
-        else if (currentRow == 2 && currentCol == 0) {
+        else if (currentRow == 2 && currentCol == 0 && printOtherDescrip) { //After the player got the key
             if (hiddenArray[currentRow][currentCol] == 0) {
                 descriptionArray[currentRow][currentCol] = "The ground is bumpy. The air is cool and dry. Stalactites hang from the ceiling.";
             }
         }
-        System.out.println(descriptionArray[currentRow][currentCol]);
+        if (lamp.getIsLit() || (currentRow == 0 && (currentCol == 0 || currentCol == 1))) {
+            System.out.println(descriptionArray[currentRow][currentCol]);
+        }
     }
 
     public void setRoomDescription() {
@@ -231,8 +242,33 @@ public class Board {
         }
     }
 
-    public void printAvailOptions() {
-        //use the moveCheck method
+    public void printAvailOptions(Player player, Lamp lamp) {
+        if (hiddenArray[currentRow][currentCol] == 1) {
+            System.out.println(" - get lamp");
+        }
+        if (hiddenArray[currentRow][currentCol] == 2 && lamp.getIsLit()) {
+            System.out.println(" - get key");
+        }
+        if (hiddenArray[currentRow][currentCol] == 3 && lamp.getIsLit()) {
+            System.out.println(" - open chest");
+        }
+        if (player.getHasLamp() && !lamp.getIsLit() && !(currentRow == 0 && currentCol == 1)) {
+            System.out.println(" - light lamp");
+        }
+        if (currentCol + 1 < hiddenArray.length && hiddenArray[currentRow][currentCol + 1] != 5) {
+            System.out.println(" - move right");
+        }
+        if (currentCol - 1 >= 0 && hiddenArray[currentRow][currentCol - 1] != 5) {
+            System.out.println(" - move left");
+        }
+        if (currentRow - 1 >= 0 && hiddenArray[currentRow - 1][currentCol] != 5) {
+            System.out.println(" - move up");
+        }
+        if (currentRow + 1 < hiddenArray.length && hiddenArray[currentRow + 1][currentCol] != 5) {
+            System.out.println(" - move down");
+        }
+        System.out.println(" - quit: Exits the game.");
+
     }
 
 

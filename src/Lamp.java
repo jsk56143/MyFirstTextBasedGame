@@ -10,5 +10,9 @@ public class Lamp {
        this.isLit = isLit;
    }
 
+   public boolean getIsLit() {
+       return isLit;
+   }
+
 
 }
